@@ -36,7 +36,7 @@
                 "tripId": 2
             },
             "message": "Booking successful"
-          }  
+           }  
           
           This wil book the nearest cab to the location you have given.  
 
