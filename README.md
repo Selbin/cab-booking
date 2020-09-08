@@ -6,7 +6,7 @@
 2. Cd to root directory of the project
 3. Run **npm install**  
         This will install the packages needed for the project to run.
-4. Run npm start  
+4. Run **npm start**  
    This will start the server
 
 ## Work flow
@@ -67,7 +67,7 @@
               "message": "Trip completed"
             }  
           
-          This wil end the trip providing you with the trip details 
+          This wil end the trip providing you with the trip 
 
 
   
