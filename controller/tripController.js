@@ -86,7 +86,6 @@ const endTrip = async (req, res) => {
       result.rows[0].lon
     )
     const travelCost = calculateCost(distanceTravelled, result.rows[0].start_time, new Date(), result.rows[0].color)
-    await exeQuery(query2, [true, result.rows[0].cab_id])
     result = await exeQuery(query3, [endLat, endLon, new Date(), travelCost, tripId])
     res.status(200).json(setResponseObj(true, result.rows[0], 'Trip completed'))
   } catch (error) {
