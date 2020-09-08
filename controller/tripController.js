@@ -70,11 +70,11 @@ const bookCab = async (req, res) => {
 const endTrip = async (req, res) => {
   const { endLat, endLon, tripId } = req.params
   const query1 =
-    'select trip.*, cabs.color from trip inner join cabs on cabs.cab_id = trip.cab_id where trip_id = $1'
+    'select trip.*, cabs.color from trip inner join cabs on cabs.cab_id = trip.cab_id where trip_id = $1 and cost = $2'
   const query2 = 'update cabs set available = $1, lat = $3, lon= $4 where cab_id = $2'
   const query3 = 'update trip set end_lat =$1, end_lon=$2, end_time=$3, cost=$4 where trip_id = $5 returning *'
   try {
-    let result = await exeQuery(query1, [tripId])
+    let result = await exeQuery(query1, [tripId, 0])
     if (!result.rowCount) {
       return res.status(404).json(setResponseObj(false, null, 'Trip not found'))
     }
