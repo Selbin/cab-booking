@@ -11,9 +11,15 @@ const calculateDistance = (x1, y1, x2, y2) => {
 const findNearestCab = (currentCabObj, newDistance, newCab) =>
   currentCabObj.distance > newDistance ? { cabInfo: newCab, distance: newDistance } : currentCabObj
 
+const calculateCost = (distance, startTime, endTime, cabColor = null) => {
+  const timeDifference = (endTime.getTime() - startTime.getTime()) / 1000 / 60
+  const additionalCost = cabColor === 'pink' ? 5 : 0
+  return (timeDifference * 1) + (distance * 2) + additionalCost
+}
+
 // Used for setting response object
 const setResponseObj = (success, data, message) => {
   return { success, data, message }
 }
 
-module.exports = { calculateDistance, findNearestCab, setResponseObj }
+module.exports = { calculateDistance, findNearestCab, setResponseObj, calculateCost }
