@@ -60,6 +60,7 @@ const bookCab = async (req, res) => {
       ])
       cabObj.tripId = result.rows[0].trip_id
     }
+    req.io.local.emit('book trip', cabObj)
     res.status(200).json(setResponseObj(true, cabObj, 'Booking successful'))
   } catch (error) {
     console.log(error)
@@ -87,6 +88,7 @@ const endTrip = async (req, res) => {
     )
     const travelCost = calculateCost(distanceTravelled, result.rows[0].start_time, new Date(), result.rows[0].color)
     result = await exeQuery(query3, [endLat, endLon, new Date(), travelCost, tripId])
+    req.io.local.emit('end trip', result.rows[0])
     res.status(200).json(setResponseObj(true, result.rows[0], 'Trip completed'))
   } catch (error) {
     console.log(error)
