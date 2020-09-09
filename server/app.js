@@ -18,6 +18,13 @@ io.on('connection', async socket => {
   io.emit('list vehicle', result.rows)
 })
 
+const ko = (req, res, next) => {
+  req.io = io
+  next()
+}
+
+app.use(ko)
+
 app.use('/fuber', indexRoutes)
 
 http.listen(process.env.APP_PORT, () =>
