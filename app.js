@@ -1,15 +1,27 @@
 const express = require('express')
 const dotEnv = require('dotenv')
+const { exeQuery } = require('./database/database')
 const indexRoutes = require('./routes/indexRoutes')
+const cors = require('cors')
 
 dotEnv.config()
 
 const app = express()
+const http = require('http').createServer(app)
+const io = require('socket.io')(http)
 
-app.use(express.json())
+app.use(cors())
+
+io.on('connection', socket => {
+  const query = 'select * from cabs where available = $1'
+  const result = exeQuery(query, [true])
+  io.emit(result.rows)
+})
 
 app.use('/fuber', indexRoutes)
 
-app.listen(process.env.APP_PORT, () => console.log('listening to: ', process.env.APP_PORT))
+http.listen(process.env.APP_PORT, () =>
+  console.log('listening to: ', process.env.APP_PORT)
+)
 
 module.exports = app
