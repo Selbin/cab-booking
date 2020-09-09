@@ -46,7 +46,6 @@
         })
         const socket = io('http://localhost:8000')
         socket.on('list vehicle', function (cabList) {
-          console.log(cabList)
           for (let cab of cabList) {
             const marker = new google.maps.Marker({
               position: new google.maps.LatLng(cab.lat, cab.lon),
