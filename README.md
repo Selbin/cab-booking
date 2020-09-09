@@ -3,12 +3,16 @@
 ## Setup
 
 1. Clone the repository
-2. Cd to root directory of the project
+2. Cd to server directory of the project
 3. Run **npm install**  
         This will install the packages needed for the project to run.
 4. Run **npm start**  
    This will start the server
+5. cd to client directory
+6. Repeat steps 3 and 4
+   This will run the frontend
 
+*Note*: Front-end will show location of cabs that are available and for map I used google map api in developer mode.  
 ## Work flow
 
 ### Book a cab
