@@ -12,10 +12,10 @@ const io = require('socket.io')(http)
 
 app.use(cors())
 
-io.on('connection', socket => {
+io.on('connection', async socket => {
   const query = 'select * from cabs where available = $1'
-  const result = exeQuery(query, [true])
-  io.emit(result.rows)
+  const result = await exeQuery(query, [true])
+  io.emit('list vehicle', result.rows)
 })
 
 app.use('/fuber', indexRoutes)
