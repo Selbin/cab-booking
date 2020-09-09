@@ -38,20 +38,56 @@
     <div id="map"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script>
+      function removeMarkers () {
+        for (i = 0; i < gmarkers.length; i++) {
+          gmarkers[i].setMap(null)
+        }
+      }
+      let gmarkers = []
+      let cabs = ''
       function initMap () {
-        const location = { lat: 10.512915, lng: 76.220470 }
+        const location = { lat: 10.512915, lng: 76.22047 }
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
           center: location
         })
         const socket = io('http://localhost:8000')
         socket.on('list vehicle', function (cabList) {
-          for (let cab of cabList) {
+          cabs = cabList
+          removeMarkers()
+          for (let cab of cabs) {
             const marker = new google.maps.Marker({
               position: new google.maps.LatLng(cab.lat, cab.lon),
               icon: './favicon.ico',
               map: map
             })
+            gmarkers.push(marker)
+          }
+        })
+        socket.on('book trip', function (unavailableCab) {
+          cabs = cabs.filter(
+            cab => cab.cab_id !== unavailableCab.cabInfo.cab_id
+          )
+          removeMarkers()
+          for (let cab of cabs) {
+            const marker = new google.maps.Marker({
+              position: new google.maps.LatLng(cab.lat, cab.lon),
+              icon: './favicon.ico',
+              map: map
+            })
+            gmarkers.push(marker)
+          }
+        })
+        socket.on('end trip', function (availableCab) {
+          cabs.push(availableCab)
+          removeMarkers()
+          for (let cab of cabs) {
+            const marker = new google.maps.Marker({
+              position: new google.maps.LatLng(cab.lat, cab.lon),
+              icon: './favicon.ico',
+              map: map
+            })
+            gmarkers.push(marker)
           }
         })
       }
