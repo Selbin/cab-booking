@@ -71,7 +71,7 @@
               "message": "Trip completed"
             }  
           
-          This wil end the trip providing you with the trip 
+          This wil end the trip providing you with the trip details
 
 
   
