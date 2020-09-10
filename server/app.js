@@ -12,9 +12,9 @@ const io = require('socket.io')(http)
 
 app.use(cors()) // to allow cross origin request
 
-io.on('connection', async socket => {   
-  const query = 'select * from cabs where available = $1'
-  const result = await exeQuery(query, [true])
+io.on('connection', async socket => {
+  const getAvailableCabs = 'select * from cabs where available = $1'
+  const result = await exeQuery(getAvailableCabs, [true])
   io.emit('list vehicle', result.rows)
 })
 
