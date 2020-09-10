@@ -36,10 +36,10 @@ const responseObj = {
   message: 'Booking successful'
 }
 
-describe('GET /fuber/book/:lat/:lon/:userId/:color', () => {
+describe('POST /fuber/book/:lat/:lon/:userId/:color', () => {
   it('responds with json containing booked cab data', done => {
     request(app)
-      .get('/fuber/book/10.505284/76.240293/1/pink')
+      .post('/fuber/book/10.505284/76.240293/1/pink')
       .expect(200)
       .expect(res => {
         result = res.body
