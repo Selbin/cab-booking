@@ -18,12 +18,12 @@ io.on('connection', async socket => {
   io.emit('list vehicle', result.rows)
 })
 
-const ko = (req, res, next) => {
+const setSocket = (req, res, next) => {
   req.io = io
   next()
 }
 
-app.use(ko)
+app.use(setSocket)
 
 app.use('/fuber', indexRoutes)
 
