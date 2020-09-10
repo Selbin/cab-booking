@@ -18,12 +18,12 @@
 ## Work flow
 
 ### Book a cab
-  To book a cab call  http://localhost:8000/fuber/book/:lat/:lon/:userId/:color  
+  To book a cab call  POST http://localhost:8000/fuber/book/:lat/:lon/:userId/:color  
   1. lat and lon are latitude and longitude of user  
   2. userId is the unique id of user
   3. color is an optional param which can be given pink to book pink colored car or else it should be given noprefs  
       #### Example
-         call http://localhost:8000/fuber/book/10.505284/76.240293/1/noprefs  
+         call POST http://localhost:8000/fuber/book/10.505284/76.240293/1/noprefs  
 
          Response:  
 
@@ -47,12 +47,12 @@
           This wil book the nearest cab to the location you have given.  
 
 ### Ending a trip
-   To end a trip call  http://localhost:8000/fuber/endTrip/:tripId/:endLat/:endLon
+   To end a trip call POST http://localhost:8000/fuber/endTrip/:tripId/:endLat/:endLon
   1. tripId is the trip id that you get from the response of booking
   2. endLat and endLong is the destination latitude and longitude  
 
       #### Example
-         call http://localhost:8000/fuber/endTrip/2/10.500750/76.239696  
+         call POST http://localhost:8000/fuber/endTrip/2/10.500750/76.239696  
 
          Response:  
             
