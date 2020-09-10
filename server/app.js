@@ -10,15 +10,15 @@ const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 
-app.use(cors())
+app.use(cors()) // to allow cross origin request
 
-io.on('connection', async socket => {
+io.on('connection', async socket => {   
   const query = 'select * from cabs where available = $1'
   const result = await exeQuery(query, [true])
   io.emit('list vehicle', result.rows)
 })
 
-const setSocket = (req, res, next) => {
+const setSocket = (req, res, next) => { // to set socket io to req object
   req.io = io
   next()
 }

@@ -11,6 +11,7 @@ const calculateDistance = (x1, y1, x2, y2) => {
 const findNearestCab = (currentCabObj, newDistance, newCab) =>
   currentCabObj.distance > newDistance ? { cabInfo: newCab, distance: newDistance } : currentCabObj
 
+// used for calculating cost of the trip
 const calculateCost = (distance, startTime, endTime, cabColor = null) => {
   const timeDifference = (endTime.getTime() - startTime.getTime()) / 1000 / 60
   const additionalCost = cabColor === 'pink' ? 5 : 0
