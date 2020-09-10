@@ -24,80 +24,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <style>
-      #map {
-        height: 800px; /* The height is 400 pixels */
-        width: 100%; /* The width is the width of the web page */
-      }
-    </style>
     <title>Cab pool</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <script>
-      let gmarkers = []
-      let cabs = ''
-
-      // function  to remove existing marker
-      function removeMarkers () {
-        for (i = 0; i < gmarkers.length; i++) {
-          gmarkers[i].setMap(null)
-        }
-      }
-
-      function initMap () {
-        const location = { lat: 10.512915, lng: 76.22047 }
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
-          center: location
-        })
-
-        const socket = io('http://localhost:8000')
-        socket.on('list vehicle', function (cabList) {
-          cabs = cabList
-          removeMarkers()
-          for (let cab of cabs) {
-            const marker = new google.maps.Marker({
-              position: new google.maps.LatLng(cab.lat, cab.lon),
-              icon: './favicon.ico',
-              map: map
-            })
-            gmarkers.push(marker)
-          }
-        })
-        socket.on('book trip', function (unavailableCab) {
-          cabs = cabs.filter(
-            cab => cab.cab_id !== unavailableCab.cabInfo.cab_id
-          )
-          removeMarkers()
-          for (let cab of cabs) {
-            const marker = new google.maps.Marker({
-              position: new google.maps.LatLng(cab.lat, cab.lon),
-              icon: './favicon.ico',
-              map: map
-            })
-            gmarkers.push(marker)
-          }
-        })
-        socket.on('end trip', function (availableCab) {
-          cabs.push(availableCab)
-          removeMarkers()
-          for (let cab of cabs) {
-            const marker = new google.maps.Marker({
-              position: new google.maps.LatLng(cab.lat, cab.lon),
-              icon: './favicon.ico',
-              map: map
-            })
-            gmarkers.push(marker)
-          }
-        })
-      }
-    </script>
-    <script
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFj_B1Ic6pv9uB7OQlLU6OOa9gvdRlJus&callback=initMap"
-    ></script>
+    
   </body>
 </html>
