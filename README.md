@@ -6,10 +6,12 @@
 2. Cd to server directory of the project
 3. Run **npm install**  
         This will install the packages needed for the project to run.
-4. Run **npm start**  
+4. Create database tables using commands from database.sql
+5. Create *.env* file and add the neccessary configuration [Refer envSample](https://github.com/Selbin/cab-booking/blob/master/server/envSample)
+6. Run **npm start**  
    This will start the server
-5. cd to client directory
-6. Repeat steps 3 and 4
+7. cd to client directory
+8. Repeat steps 3 and 4
    This will run the frontend
 
 *Note*: Front-end will show location of cabs that are available and for map I used google map api in developer mode.  
