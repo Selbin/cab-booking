@@ -15,12 +15,12 @@ const bookCab = async (req, res) => {
     colorChoice = 'and color = $2'
     value.push(specialColor)
   }
-  const getCab = 'select * from cabs where available = $1 ' + colorChoice
-  const updateCabStatus = 'update cabs set available = $1 where cab_id = $2'
-  const addTripInfo =
+  const getCabQuery = 'select * from cabs where available = $1 ' + colorChoice
+  const updateCabStatusQuery = 'update cabs set available = $1 where cab_id = $2'
+  const addTripInfoQuery =
     'insert into trip(cab_id, user_id, lat, lon, start_time, end_time, end_lat, end_lon, cost) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning trip_id'
   try {
-    let result = await exeQuery(getCab, value)
+    let result = await exeQuery(getCabQuery, value)
     if (!result.rowCount) {
       return res
         .status(200)
@@ -47,8 +47,8 @@ const bookCab = async (req, res) => {
       cabObj = findNearestCab(cabObj, distance, result.rows[i])
     }
     if (cabObj.cabInfo.cab_id) {
-      await exeQuery(updateCabStatus, [false, cabObj.cabInfo.cab_id])
-      result = await exeQuery(addTripInfo, [
+      await exeQuery(updateCabStatusQuery, [false, cabObj.cabInfo.cab_id])
+      result = await exeQuery(addTripInfoQuery, [
         cabObj.cabInfo.cab_id,
         userId,
         lat,
@@ -71,16 +71,16 @@ const bookCab = async (req, res) => {
 
 const endTrip = async (req, res) => {
   const { endLat, endLon, tripId } = req.params
-  const getTripDetail =
+  const getTripDetailQuery =
     'select trip.*, cabs.color from trip inner join cabs on cabs.cab_id = trip.cab_id where trip_id = $1 and cost = $2'
-  const updateCabStatus = 'update cabs set available = $1, lat = $3, lon= $4 where cab_id = $2'
-  const updateTripInfo = 'update trip set end_lat =$1, end_lon=$2, end_time=$3, cost=$4 where trip_id = $5 returning *'
+  const updateCabStatusQuery = 'update cabs set available = $1, lat = $3, lon= $4 where cab_id = $2'
+  const updateTripInfoQuery = 'update trip set end_lat =$1, end_lon=$2, end_time=$3, cost=$4 where trip_id = $5 returning *'
   try {
-    let result = await exeQuery(getTripDetail, [tripId, 0])
+    let result = await exeQuery(getTripDetailQuery, [tripId, 0])
     if (!result.rowCount) {
       return res.status(200).json(setResponseObj(false, null, 'Trip not found'))
     }
-    await exeQuery(updateCabStatus, [true, result.rows[0].cab_id, endLat, endLon])
+    await exeQuery(updateCabStatusQuery, [true, result.rows[0].cab_id, endLat, endLon])
     const distanceTravelled = calculateDistance(
       endLat,
       endLon,
@@ -88,7 +88,7 @@ const endTrip = async (req, res) => {
       result.rows[0].lon
     )
     const travelCost = calculateCost(distanceTravelled, result.rows[0].start_time, new Date(), result.rows[0].color)
-    result = await exeQuery(updateTripInfo, [endLat, endLon, new Date(), travelCost, tripId])
+    result = await exeQuery(updateTripInfoQuery, [endLat, endLon, new Date(), travelCost, tripId])
     req.io.local.emit('end trip', result.rows[0])
     res.status(200).json(setResponseObj(true, result.rows[0], 'Trip completed'))
   } catch (error) {
