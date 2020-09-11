@@ -18,14 +18,24 @@
 ## Work flow
 
 ### Book a cab
-  To book a cab call  POST http://localhost:8000/fuber/book/:lat/:lon/:userId/:color  
-  1. lat and lon are latitude and longitude of user  
-  2. userId is the unique id of user
-  3. color is an optional param which can be given pink to book pink colored car or else it should be given noprefs  
+  To book a cab call  POST http://localhost:8000/fuber/book 
+   
       #### Example
-         call POST http://localhost:8000/fuber/book/10.505284/76.240293/1/noprefs  
+         POST http://localhost:8000/fuber/book  
 
-         Response:  
+         Body:
+            {
+              "lat": 10.486819,
+              "lon": 76.252764,
+              "userId": 1,
+              "color": "noprefs"
+            }  
+
+        1. lat and lon are latitude and longitude of user  
+        2. userId is the unique id of user
+        3. color is an optional param which can be given pink to book pink colored car or else it should be given noprefs  
+
+        Response:  
 
            {
             "success": true,
@@ -47,13 +57,20 @@
           This wil book the nearest cab to the location you have given.  
 
 ### Ending a trip
-   To end a trip call POST http://localhost:8000/fuber/endTrip/:tripId/:endLat/:endLon
-  1. tripId is the trip id that you get from the response of booking
-  2. endLat and endLong is the destination latitude and longitude  
+   To end a trip call POST http://localhost:8000/fuber/endTrip    
 
       #### Example
-         call POST http://localhost:8000/fuber/endTrip/2/10.500750/76.239696  
+         POST http://localhost:8000/fuber/endTrip  
 
+         Body:
+              {
+                "endLat": 10.518573,
+                "endLon": 76.259432,
+                "tripId" : 120
+              }
+         1. tripId is the trip id that you get from the response of booking
+         2. endLat and endLong is the destination latitude and longitude  
+         
          Response:  
             
             {
