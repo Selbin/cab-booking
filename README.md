@@ -4,11 +4,12 @@
 
 ### Server:
 1. Clone the repository
-2. Cd to server directory of the project
+2. cd to server directory of the project
 3. Run **npm install**  
         This will install the packages needed for the project to run.
 4. Create database tables using commands from database.sql
-5. Run **npm start**  
+5. Update .env file according to your configuration.
+6. Run **npm start**  
    This will start the server  
    
 ### Client:
