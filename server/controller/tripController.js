@@ -89,7 +89,8 @@ const endTrip = async (req, res) => {
     )
     const travelCost = calculateCost(distanceTravelled, result.rows[0].start_time, new Date(), result.rows[0].color)
     result = await exeQuery(updateTripInfoQuery, [endLat, endLon, new Date(), travelCost, tripId])
-    req.io.local.emit('end trip', result.rows[0])
+    console.log(result.rows[0])
+    req.io.local.emit('end trip', { cab_id: result.rows[0].cab_id, lat: endLat, lon: endLon })
     res.status(200).json(setResponseObj(true, result.rows[0], 'Trip completed'))
   } catch (error) {
     console.log(error)

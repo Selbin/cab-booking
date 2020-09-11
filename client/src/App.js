@@ -26,7 +26,8 @@ function App () {
 
   // listen to end trip event and update marker
   socket.on('end trip', availableCab => {
-    setMarker([...tempMarker, availableCab])
+    tempMarker = [...tempMarker, availableCab]
+    setMarker(tempMarker)
   })
   return (
     <div className='App'>
