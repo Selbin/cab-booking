@@ -2,17 +2,24 @@
 
 ## Setup
 
+### Server:
 1. Clone the repository
 2. Cd to server directory of the project
 3. Run **npm install**  
         This will install the packages needed for the project to run.
 4. Create database tables using commands from database.sql
-5. Create *.env* file and add the neccessary configuration [Refer envSample](https://github.com/Selbin/cab-booking/blob/master/server/envSample)
-6. Run **npm start**  
+5. Run **npm start**  
+   This will start the server  
+   
+### Client:
+1. Run **npm start**  
    This will start the server
-7. cd to client directory
-8. Repeat steps 3 and 4
-   This will run the frontend
+2. cd to client directory
+3. Run **npm install**  
+        This will install the packages needed for the project.
+5. Run **npm start**  
+   This will start the client
+
 
 *Note*: Front-end will show location of cabs that are available and for map I used google map api in developer mode.  
 ## Work flow
@@ -20,7 +27,7 @@
 ### Book a cab
   To book a cab call  POST http://localhost:8000/fuber/book 
    
-      #### Example
+  #### Example
          POST http://localhost:8000/fuber/book  
 
          Body:
@@ -33,7 +40,7 @@
 
         1. lat and lon are latitude and longitude of user  
         2. userId is the unique id of user
-        3. color is an optional param which can be given pink to book pink colored car or else it should be given noprefs  
+        3. color is an optional value which can be given pink to book pink colored cab or else it should be given noprefs  
 
         Response:  
 
@@ -59,7 +66,7 @@
 ### Ending a trip
    To end a trip call POST http://localhost:8000/fuber/endTrip    
 
-      #### Example
+  #### Example
          POST http://localhost:8000/fuber/endTrip  
 
          Body:
@@ -70,7 +77,7 @@
               }
          1. tripId is the trip id that you get from the response of booking
          2. endLat and endLong is the destination latitude and longitude  
-         
+
          Response:  
             
             {
