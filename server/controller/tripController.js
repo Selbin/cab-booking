@@ -3,19 +3,19 @@ const {
   calculateDistance,
   findNearestCab,
   setResponseObj,
-  calculateCost
+  calculateCost,
+  specialCarColor
 } = require('../helper/helper')
 
 const bookCab = async (req, res) => {
-  const { lat, lon, color, userId } = req.params
-  let colorChoice = ''
-  const specialColor = 'pink'
+  const { lat, lon, color, userId } = req.body
+  let colorChoiceQuery = ''
   const value = [true]
-  if (color === specialColor) {
-    colorChoice = 'and color = $2'
-    value.push(specialColor)
+  if (color === specialCarColor) {
+    colorChoiceQuery = 'and color = $2'
+    value.push(specialCarColor)
   }
-  const getCabQuery = 'select * from cabs where available = $1 ' + colorChoice
+  const getCabQuery = 'select * from cabs where available = $1 ' + colorChoiceQuery
   const updateCabStatusQuery = 'update cabs set available = $1 where cab_id = $2'
   const addTripInfoQuery =
     'insert into trip(cab_id, user_id, lat, lon, start_time, end_time, end_lat, end_lon, cost) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning trip_id'
@@ -70,7 +70,7 @@ const bookCab = async (req, res) => {
 }
 
 const endTrip = async (req, res) => {
-  const { endLat, endLon, tripId } = req.params
+  const { endLat, endLon, tripId } = req.body
   const getTripDetailQuery =
     'select trip.*, cabs.color from trip inner join cabs on cabs.cab_id = trip.cab_id where trip_id = $1 and cost = $2'
   const updateCabStatusQuery = 'update cabs set available = $1, lat = $3, lon= $4 where cab_id = $2'

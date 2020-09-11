@@ -23,4 +23,6 @@ const setResponseObj = (success, data, message) => {
   return { success, data, message }
 }
 
-module.exports = { calculateDistance, findNearestCab, setResponseObj, calculateCost }
+const specialCarColor = 'pink'
+
+module.exports = { calculateDistance, findNearestCab, setResponseObj, calculateCost, specialCarColor }

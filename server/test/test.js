@@ -1,6 +1,7 @@
 const request = require('supertest')
 const expect = require('expect')
 const { describe, it } = require('mocha')
+
 const app = require('../app')
 const {
   calculateCost,
@@ -9,7 +10,6 @@ const {
   setResponseObj
 } = require('../helper/helper')
 
-let result = ''
 const cabObj = {
   cabInfo: {
     cab_id: 4,
@@ -35,11 +35,19 @@ const responseObj = {
   data: newCabObj,
   message: 'Booking successful'
 }
+const bookCabBody = {
+  lat: 10.486819,
+  lon: 76.252764,
+  userId: 1,
+  color: 'noprefs'
+}
+let result
 
-describe('POST /fuber/book/:lat/:lon/:userId/:color', () => {
+describe('POST /fuber/book', () => {
   it('responds with json containing booked cab data', done => {
     request(app)
-      .post('/fuber/book/10.505284/76.240293/1/pink')
+      .post('/fuber/book')
+      .send(bookCabBody)
       .expect(200)
       .expect(res => {
         result = res.body
@@ -53,10 +61,15 @@ describe('POST /fuber/book/:lat/:lon/:userId/:color', () => {
   })
 })
 
-describe('post /fuber/endTrip/:tripId/:endLat/:endLon', () => {
+describe('post /fuber/endTrip', () => {
   it('responds with json containing trip data', done => {
     request(app)
-      .post(`/fuber/endTrip/${result.data.tripId}/10.497702/76.239472`)
+      .post('/fuber/endTrip')
+      .send({
+        endLat: 10.518573,
+        endLon: 76.259432,
+        tripId: result.data.tripId
+      })
       .expect(200)
       .expect(res => {
         expect(res.body.success).toBe(true)
@@ -95,11 +108,11 @@ describe('Testing findNearestCab()', () => {
   })
 })
 
-describe('Testing setResponseOBj(', () => {
+describe('Testing setResponseOBj()', () => {
   it('returns with nearest cab object', done => {
-    expect(JSON.stringify(setResponseObj(true, newCabObj, 'Booking successful'))).toBe(
-      JSON.stringify(responseObj)
-    )
+    expect(
+      JSON.stringify(setResponseObj(true, newCabObj, 'Booking successful'))
+    ).toBe(JSON.stringify(responseObj))
     done()
   })
 })

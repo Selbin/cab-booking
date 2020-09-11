@@ -1,16 +1,16 @@
 const express = require('express')
 const dotEnv = require('dotenv')
-const { exeQuery } = require('./database/database')
-const indexRoutes = require('./routes/indexRoutes')
 const cors = require('cors')
-
-dotEnv.config()
-
 const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 
+const { exeQuery } = require('./database/database')
+const indexRoutes = require('./routes/indexRoutes')
+
+dotEnv.config()
 app.use(cors()) // to allow cross origin request
+app.use(express.json())
 
 io.on('connection', async socket => {
   const getAvailableCabs = 'select * from cabs where available = $1'
